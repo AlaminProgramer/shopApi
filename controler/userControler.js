@@ -47,7 +47,6 @@ const registerControler=(req, res)=>{
 }
 
 const loginControler=(req,res)=>{
-    console.log(req.body)
     let varify =  userValidator.loginValidator({email:req.body.email, password:req.body.password})
     if(!varify.isValid){
         return res.status(400).json(varify.err)
@@ -61,8 +60,9 @@ const loginControler=(req,res)=>{
         .then(result=>{
             if(!result){
                 return res.status(400).json({massage:" Wrong password", status:false})
-            }
-            let token = jwt.sign({name:user.name, email:user.email}, "secret" , {expiresIn:'4h'})
+			}
+			let payload={name:user.name, email:user.email}
+			let token = jwt.sign(payload, "secret" , {expiresIn:'4h'})
             res.status(200).json({massage:"Login successfull !", status:true, userId:user._id , token:token  } )
         })
 	})
@@ -71,14 +71,33 @@ const loginControler=(req,res)=>{
 		res.json({err:err})
 	})
 }
+const getMe=(req, res)=>{ 
+	RegisterModel.findOne({email:req.user.email})
+	.then(user=>{
+		if(!user){
+			return res.status(400).json({massage:"User not found", status:false})
+		}
+		return res.status(200).json({name:user.name, email:user.email})
 
-const getMe=(req, res)=>{
-	const headers =req.user
-	console.log('headers', headers)
-	// RegisterModel.findOne({email:headers.email})
-	res.status(200).json({massage:" aauth successssss!"})
+	})
 }
+const postMe=(req, res)=>{
+	const {name,email}=req.body
+	const user=req.user
+	RegisterModel.findOneAndUpdate({email:user.email})
+	.then(user=>{
+		if(!user){
+			return  res.status(400).json({massage:"User not founded" , status:faild})
+		}
+		user.name=name
+		user.email=email
+		user.save()
+		.then(success=>{
+			return res.status(200).json
 
+		})
+	})
+}
 
 module.exports={
     welcome,
