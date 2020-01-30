@@ -4,6 +4,7 @@ const mongoose =require ('mongoose')
 const app =express()
 const morgan =require('morgan')
 const bodyParser=require('body-parser')
+const passport =require('passport')
 
 // router
 const userRouter =require('./router/userRouter')
@@ -22,6 +23,8 @@ mongoose .connect('mongodb://localhost/shop_management',{useUnifiedTopology:true
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
+app.use(passport.initialize())
+require('./passport')(passport)
 
 // using  route to server
 app.use(userRouter)

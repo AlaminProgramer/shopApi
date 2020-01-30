@@ -72,11 +72,18 @@ const loginControler=(req,res)=>{
 	})
 }
 
+const getMe=(req, res)=>{
+	const headers =req.user
+	console.log('headers', headers)
+	// RegisterModel.findOne({email:headers.email})
+	res.status(200).json({massage:" aauth successssss!"})
+}
 
 
 module.exports={
     welcome,
     registerControler,
-    loginControler
+	loginControler,
+	getMe
 
 }

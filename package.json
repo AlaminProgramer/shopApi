@@ -4,7 +4,7 @@
   "description": "This is shop management application",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "server": "nodemon server.js"
   },
   "author": "alaminprogramerr",
@@ -17,6 +17,8 @@
     "mongoose": "^5.8.10",
     "morgan": "^1.9.1",
     "nodemon": "^2.0.2",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
     "validator": "^12.2.0"
   }
 }

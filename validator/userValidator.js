@@ -22,13 +22,14 @@ module.exports={
     }
     ,
     loginValidator(user){
+        console.log(user)
         let err={}  
         if(!user.email){
             err.email='Email required !'
         } else if(!validator.default.isEmail(user.email)){
             err.email=' Invalid email !'
         }
-        if(user.password){
+        if(!user.password){
             err.password='Password required!!'
         }
         return{
