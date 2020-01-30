@@ -9,6 +9,7 @@ userRouter.get('/welcome', userControler.welcome)
 userRouter.post('/auth/register', userControler.registerControler)
 userRouter.post('/auth/login',userControler.loginControler)
 userRouter.get('/auth/me',authenticate, userControler.getMe)
+userRouter.post('/auth/me', authenticate , userControler.postMe)
 
 
 

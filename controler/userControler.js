@@ -93,8 +93,7 @@ const postMe=(req, res)=>{
 		user.email=email
 		user.save()
 		.then(success=>{
-			return res.status(200).json
-
+			return res.status(200).json({massage:"Updated successfully"  , status:true})
 		})
 	})
 }
@@ -103,6 +102,7 @@ module.exports={
     welcome,
     registerControler,
 	loginControler,
-	getMe
+	getMe,
+	postMe
 
 }
