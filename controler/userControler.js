@@ -26,7 +26,8 @@ const registerControler=(req, res)=>{
 					const newUser= new RegisterModel({
                         name:req.body.name,
                         email:req.body.email,
-                        password:hash
+						password:hash, 
+						file:''
                     })
 					newUser.save()
 					.then(user=>{
@@ -61,7 +62,7 @@ const loginControler=(req,res)=>{
             if(!result){
                 return res.status(400).json({massage:" Wrong password", status:false})
 			}
-			let payload={name:user.name, email:user.email}
+			let payload={name:user.name, email:user.email, id:user._id}
 			let token = jwt.sign(payload, "secret" , {expiresIn:'4h'})
             res.status(200).json({massage:"Login successfull !", status:true, userId:user._id , token:token  } )
         })
@@ -84,6 +85,11 @@ const getMe=(req, res)=>{
 const postMe=(req, res)=>{
 	const {name,email}=req.body
 	const user=req.user
+	
+	let verify = userValidator.postMeUpdateValidator(req.body)
+	if(!verify.isValid){
+		return res.status(400).json(verify.err)
+	}
 	RegisterModel.findOneAndUpdate({email:user.email})
 	.then(user=>{
 		if(!user){
@@ -93,6 +99,7 @@ const postMe=(req, res)=>{
 		user.email=email
 		user.save()
 		.then(success=>{
+			console.log(success)
 			return res.status(200).json({massage:"Updated successfully"  , status:true})
 		})
 	})
@@ -105,4 +112,4 @@ module.exports={
 	getMe,
 	postMe
 
-}
+} 

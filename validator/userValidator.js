@@ -37,4 +37,21 @@ module.exports={
             isValid:Object.keys(err).length===0
         }
     }
+    , postMeUpdateValidator(user){
+        
+        let err={}  
+        if(!user.name){
+            err.name='Name required for update !'
+
+        }
+        if(!user.email){
+            err.email='Email required for update !'
+        } else if(!validator.default.isEmail(user.email)){
+            err.email=' Invalid email !'
+        }
+        return{
+            err:err,
+            isValid:Object.keys(err).length===0
+        }
+    }
 }
